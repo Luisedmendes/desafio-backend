@@ -2,10 +2,6 @@ import {Request, Response, Router} from 'express';
 import PlanRepository from '../repositories/PlanRepository';
 import IPlan from '../interfaces/IPlan';
 
-import User from '../entities/User';
-import Plan from '../entities/Plan';
-import UserRepository from '../repositories/UserRepository';
-
 const planRouter = Router();
 
 
@@ -29,7 +25,7 @@ planRouter.post('/',async (req: Request, res: Response) => {
             message: 'Erro ao criar plano',
             code: 500,
             message_code: 'plan_creation_error',
-            error: error.message,
+            data: error.message,
         });
         
     }
@@ -61,6 +57,7 @@ planRouter.post('/selecionar',async (req: Request, res: Response) => {
             message: 'Plano associado ao usuário com sucesso',
             code: 200,
             message_code: 'plan_associated',
+            data: req.body
         });
 
     } catch (error:any) {
@@ -68,7 +65,7 @@ planRouter.post('/selecionar',async (req: Request, res: Response) => {
             message: 'Erro ao associar plano ao usuário',
             code: 500,
             message_code: 'plan_association_error',
-            error: error.message,
+            data: error.message,
         });
         
     }
@@ -87,6 +84,7 @@ planRouter.delete('/delete',async (req: Request, res: Response) => {
                 message: 'Plano não encontrado',
                 code: 401,
                 message_code: "plan_not_found",
+                data: req.body
             })
         }
 
@@ -123,6 +121,7 @@ planRouter.patch('/update',async (req: Request, res: Response) => {
                 message: 'Plano não encontrado',
                 code: 401,
                 message_code: "plan_not_found",
+                data: req.body
             })
         }
 

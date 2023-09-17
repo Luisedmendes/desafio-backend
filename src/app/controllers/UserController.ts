@@ -11,7 +11,7 @@ const userRouter = Router();
 
 
 
-userRouter.get('/',async (req: Request, res: Response): Promise<Response> => {
+userRouter.get('/listar',async (req: Request, res: Response): Promise<Response> => {
 
     const {id} = req.body;
 
@@ -34,7 +34,7 @@ userRouter.get('/',async (req: Request, res: Response): Promise<Response> => {
     }
 });
 
-userRouter.post('/', async (req: Request, res: Response) => {
+userRouter.post('/cadastro', async (req: Request, res: Response) => {
     try {
         
         const userData: IUser = req.body;
@@ -68,6 +68,7 @@ userRouter.post('/login', async (req: Request, res: Response) => {
                 message: 'Campos email e password são obrigatórios',
                 code: 400,
                 messagecode: 'missing_fields',
+                data: req.body
             });
         }
 
@@ -78,6 +79,7 @@ userRouter.post('/login', async (req: Request, res: Response) => {
                 message: 'Email não encontrado',
                 code: 401,
                 messagecode: 'email_not_found',
+                data: req.body
             });
         }
 
@@ -91,6 +93,7 @@ userRouter.post('/login', async (req: Request, res: Response) => {
                 message: 'Credenciais inválidas',
                 code: 401,
                 message_code: 'invalid_credentials',
+                data: passwordMatch
             });
         }
 
@@ -115,7 +118,7 @@ userRouter.post('/login', async (req: Request, res: Response) => {
             message: 'Erro ao fazer login',
             code: 500,
             message_code: 'login_error',
-            error: error.message,
+            data: error.message,
 
         })
         
@@ -136,6 +139,7 @@ userRouter.delete('/delete', async(req: Request, res: Response) => {
                 message: 'Email não encontrado',
                 code: 401,
                 message_code: 'email_not_found',
+                data: req.body
             });
         }
 
