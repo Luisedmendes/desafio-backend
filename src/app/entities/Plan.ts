@@ -1,4 +1,5 @@
-import {Entity, Column, PrimaryGeneratedColumn} from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, OneToMany} from 'typeorm';
+import User from './User';
 
 @Entity()
 class Plan {
@@ -13,6 +14,9 @@ class Plan {
 
     @Column('varchar', {length: 100, nullable: false})
     price: number;
+
+    @OneToMany(() => User, (user) => user.plan)
+    users: User[];
 }
 
 export default Plan;

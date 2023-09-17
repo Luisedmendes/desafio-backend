@@ -1,4 +1,5 @@
-import {Entity, Column, PrimaryGeneratedColumn} from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, ManyToOne} from 'typeorm';
+import Plan from './Plan';
 
 @Entity('users')
 class User {
@@ -10,6 +11,9 @@ class User {
 
     @Column('varchar', {length: 100, nullable: false})
     password: string
+
+    @ManyToOne(() => Plan, (plan) => plan.users)
+    plan: Plan;
 
 }
 

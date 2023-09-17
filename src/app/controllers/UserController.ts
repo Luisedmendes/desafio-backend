@@ -4,13 +4,34 @@ import User from '../entities/User';
 import UserRepository from '../repositories/UserRepository';
 import IUser from '../interfaces/IUser';
 import bcrypt from 'bcrypt';
+import PlanRepository from '../repositories/PlanRepository';
 
 
 const userRouter = Router();
 
-userRouter.get('/',async (_req: Request, res: Response): Promise<Response> => {
-    const users = await UserRepository.getUsers();
-    return res.status(200).json(users);
+
+
+userRouter.get('/',async (req: Request, res: Response): Promise<Response> => {
+
+    const {id} = req.body;
+
+    try {
+        const users = await UserRepository.getUsers(id);
+        return res.status(200).json({
+            message: "Dados dos usuarios obtidos com sucesso",
+            code: 200,
+            message_code: "user_get_sucess",
+            data: users
+        });
+    } catch (error:any) {
+        return res.status(500).json({
+            message: "Erro ao obter dados dos usuarios",
+            code : 200,
+            message_code: "user_get_error",
+            data: error.message
+        })
+        
+    }
 });
 
 userRouter.post('/', async (req: Request, res: Response) => {
@@ -73,11 +94,11 @@ userRouter.post('/login', async (req: Request, res: Response) => {
             });
         }
 
-        // Se as credenciais estiverem corretas, criar um token JWT
+        
         const token = jwt.sign(
             { userId: user.id, username: user.email },
-            'da_certo_amem', // Substitua pela sua chave secreta real
-            { expiresIn: '1h' } // Define a expiração do token (por exemplo, 1 hora)
+            'da_certo_amem', 
+            { expiresIn: '1h' } 
         );
 
         
@@ -114,7 +135,7 @@ userRouter.delete('/delete', async(req: Request, res: Response) => {
             return res.status(401).json({
                 message: 'Email não encontrado',
                 code: 401,
-                messagecode: 'email_not_found',
+                message_code: 'email_not_found',
             });
         }
 
@@ -133,12 +154,37 @@ userRouter.delete('/delete', async(req: Request, res: Response) => {
             message: 'Erro ao deletar email',
             code: 500,
             message_code: 'login_error',
-            error: error.message,
+            data: error.message,
 
         })
         
     }
 
+})
+
+userRouter.patch('/update',async (req: Request, res: Response) => {
+    try {
+        const {email, newEmail} = req.body
+
+        const updatedUser = UserRepository.updateUser(email, newEmail);
+
+        return res.status(200).json({
+            message: "email atualizado com sucesso",
+            code: 200,
+            message_code: 'email_update_sucess',
+            data: req.body
+        })
+        
+    } catch (error:any) {
+        return res.status(500).json({
+            message: 'Erro ao atualizar email',
+            code: 500,
+            message_code: 'update_error',
+            data: error.message,
+
+        })
+        
+    }
 })
 
 export default userRouter;

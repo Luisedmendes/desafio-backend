@@ -5,9 +5,20 @@ import { AppDataSource } from "../../database/data-source";
 
 const userRepository = AppDataSource.getRepository(User);
 
-const getUsers = (): Promise<IUser[]> => {
-    return userRepository.find();
-}
+const getUsers = async (userId: number) => {
+    try {
+      const user = await userRepository
+        .createQueryBuilder('user')
+        .leftJoinAndSelect('user.plan', 'plan')
+        .where('user.id = :userId', { userId })
+        .getOne();
+  
+      return user;
+    } catch (error:any) {
+      throw new Error("Erro ao buscar usuário com plano: " + error.message);
+    }
+  };
+  
 
 const postUsers = async (userData: IUser): Promise<User | null> => {
     try {
@@ -48,9 +59,6 @@ const deleteUser = async (email: string) => {
     }
 }
 
-
-
-
 const findByEmail = async (email: string): Promise<User | undefined> => {
     try {
       const user = await userRepository.findOne({ where: { email } });
@@ -61,10 +69,33 @@ const findByEmail = async (email: string): Promise<User | undefined> => {
   };
 
 
+  
+const updateUser =async (email: string, newEmail: string ): Promise<User | null> => {
+
+    try {
+
+        const existingUser = await userRepository.findOne({where: {email}});
+
+        if (!existingUser){
+            throw new Error('Email não encontrado');
+        }
+
+        existingUser.email = newEmail;
+
+        return existingUser;
+        
+    } catch (error:any) {
+        throw new Error('Erro ao atualizar email do usuario: '+ error.message);
+        
+    }
+    
+}
+
+
 
 
   
 
 
 
-export default {getUsers, postUsers, findByEmail, deleteUser};
+export default {getUsers, postUsers, findByEmail, deleteUser, updateUser};
