@@ -32,7 +32,7 @@ planRouter.post('/cadastro',async (req: Request, res: Response) => {
     
 });
 
-planRouter.get('/',async (_req: Request, res: Response) => {
+planRouter.get('/listar',async (_req: Request, res: Response) => {
     try {
         const plans = await PlanRepository.getPlans();
         return res.status(200).json({
