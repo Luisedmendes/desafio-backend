@@ -8,7 +8,7 @@ Este teste tem como objetivo analisar o nível de conhecimento com o desenvolvim
 backends, replicando o escopo do projeto.
 Utilizando Node.js com Express, TypeScript e typeORM.
 
-- [Vídeo apresentando as funcionalidades](https://youtu.be/dziUF7MDaww)
+- [Vídeo apresentando as funcionalidades](https://youtu.be/wnV_G-GNJE4)
 
 
 ## 🔥 Instalação e execução
@@ -47,7 +47,7 @@ A API oferece os seguintes endpoints:
 Lembrando que com excessão das rotas cadastro e login as outras necessitam de bearer token, o mesmo é gerado ao realizar login no sistema.
 
 - **`GET /users/listar`**: Retorna uma lista de todos os usuários.
-- **`POST /users/login`**: Assina um plano.
+- **`POST /users/login`**: Login de um usuario.
 - **`POST /users/cadastro`**: Cria um novo usuário.
 - **`PACTH /users/update`**: Atualizar os dados de um usuario.
 - **`DELETE /users/delete`**: Deletar um usuario.
