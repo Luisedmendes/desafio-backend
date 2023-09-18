@@ -18,3 +18,5 @@ AppDataSource.initialize().then(async()=> {
         console.log('Server start on port 3333');
     })
 })
+
+export default app;

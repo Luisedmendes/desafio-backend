@@ -5,9 +5,11 @@ import authenticateToken from '../middleware/authMiddleware';
 
 const routers = Router();
 
+// Rotas publicas
 routers.use('/users/login', userRouter);
 routers.use('/users/cadastro', userRouter);
 
+// Rotas privadas
 routers.use('/users', authenticateToken, userRouter)
 routers.use('/planos', authenticateToken, planRouter);
 

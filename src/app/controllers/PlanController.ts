@@ -5,7 +5,7 @@ import IPlan from '../interfaces/IPlan';
 const planRouter = Router();
 
 
-planRouter.post('/',async (req: Request, res: Response) => {
+planRouter.post('/cadastro',async (req: Request, res: Response) => {
 
     try {
 
@@ -49,9 +49,9 @@ planRouter.get('/',async (_req: Request, res: Response) => {
 
 planRouter.post('/selecionar',async (req: Request, res: Response) => {
     try {
-        const {id, planID} = req.body;
+        const {id, planId} = req.body;
     
-        await PlanRepository.postPlanToUser(id, planID);
+        await PlanRepository.postPlanToUser(id, planId);
     
         return res.status(200).json({
             message: 'Plano associado ao usuário com sucesso',

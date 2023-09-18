@@ -29,28 +29,25 @@ const getPlans = (): Promise<IPlan[]> => {
     return planRepository.find();
 }
 
-const postPlanToUser = async (id:number, planId: number) => {
+const postPlanToUser = async (id: number, planId: number) => {
     try {
-
-        const userRepository = AppDataSource.getRepository(User);
-        const user = await userRepository.findOne({ where: { id } });
-        const plan = await planRepository.findOne({ where: { id: planId } });
-
-        if(!user || !plan){
-            throw new Error('Usuario ou plano não encontrado');
-        }
-
-        user.plan = plan;
-
-        await userRepository.save(user);
-        
-        
+      const userRepository = AppDataSource.getRepository(User);
+      const user = await userRepository.findOneOrFail({ where: { id } });
+      
+      const planRepository = AppDataSource.getRepository(Plan);
+      const plan = await planRepository.findOneOrFail({ where: { id: planId } });
+  
+      user.plan = plan;
+  
+      await userRepository.save(user);
     } catch (error:any) {
-        throw new Error('Erro ao associar plano ao usuário: ' + error.message);
-    
+      throw new Error('Erro ao associar plano ao usuário: ' + error.message);
     }
-    
-}
+  };
+  
+  
+  
+  
 
 const findByName =async (id: number): Promise<Plan | undefined> => {
    try {

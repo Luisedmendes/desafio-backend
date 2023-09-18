@@ -82,6 +82,8 @@ const updateUser =async (email: string, newEmail: string ): Promise<User | null>
 
         existingUser.email = newEmail;
 
+        userRepository.save(existingUser);
+
         return existingUser;
         
     } catch (error:any) {
